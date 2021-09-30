@@ -8,7 +8,6 @@ phases:
       - echo $DOCKER_TOKEN | docker login --username forsakenthreads --password-stdin
       - REPOSITORY_URI=962829500930.dkr.ecr.us-west-2.amazonaws.com/aws-testing
       - IMAGE_TAG=$(git log -n 1 | grep -o -E '\[(UAT|PROD)\]' | sed -r 's/\[(UAT|PROD)\]/\1/')
-      - echo $(git log -n 1 | grep -o -E '\[(UAT|PROD)\]' | sed -r 's/\[(UAT|PROD)\]/\1/')
   build:
     commands:
       - echo Build started on `date`
@@ -19,4 +18,5 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - aws s3api put-object --bucket test-logs-kfreeman --key deploy-trigger
+      - ETAG=$(aws s3api put-object --bucket test-logs-kfreeman --key deploy-trigger | grep ETag | cut -d: -f2 | tr -cd '[:alnum:]')
+      - aws s3api put-object --bucket test-logs-kfreman --key builds/$ETAG --body $IMAGE_TAG
