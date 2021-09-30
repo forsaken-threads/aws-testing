@@ -19,3 +19,4 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - aws s3api put-object --bucket test-logs-kfreeman --key deploy-trigger
