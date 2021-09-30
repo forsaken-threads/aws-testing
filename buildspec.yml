@@ -20,4 +20,4 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo $IMAGE_TAG > image.tag
       - ETAG=$(aws s3api put-object --bucket test-logs-kfreeman --key deploy-trigger | grep ETag | cut -d':' -f2 | tr -cd '[:alnum:]')
-      - aws s3api put-object --bucket test-logs-kfreman --key builds/$ETAG --body image.tag
+      - aws s3api put-object --bucket test-logs-kfreeman --key builds/$ETAG --body image.tag
