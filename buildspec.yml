@@ -7,10 +7,10 @@ phases:
       - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 962829500930.dkr.ecr.us-west-2.amazonaws.com
       - REPOSITORY_URI=962829500930.dkr.ecr.us-west-2.amazonaws.com/aws-testing
       - IMAGE_TAG=${CODEBUILD_WEBHOOK_TRIGGER#branch/}
-      - printenv
   build:
     commands:
       - echo Build started on `date`
+      - git log
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
   post_build:
