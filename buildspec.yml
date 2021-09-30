@@ -17,4 +17,8 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push 962829500930.dkr.ecr.us-west-2.amazonaws.com/aws-testing:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - printf '[{"name":"Testing-Definition","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - cat imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
